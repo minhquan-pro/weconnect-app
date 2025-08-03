@@ -5,7 +5,10 @@ import HomePages from "./pages/HomePages";
 import RootLayout from "./pages/RootLayout";
 import { ThemeProvider } from "@emotion/react";
 import theme from "./Config/muiConfig";
-import RegisterPage from "./pages/RegisterPage";
+import RegisterPage from "./pages/auth/RegisterPage";
+import AuthLayout from "./pages/AuthLayout";
+import LoginPage from "./pages/auth/LoginPage";
+import OTPVeryPage from "./pages/auth/OTPVeryPage";
 
 createRoot(document.getElementById("root")).render(
   <ThemeProvider theme={theme}>
@@ -13,7 +16,11 @@ createRoot(document.getElementById("root")).render(
       <Routes>
         <Route element={<RootLayout />}>
           <Route path="/" element={<HomePages />} />
-          <Route path="/register" element={<RegisterPage />} />
+          <Route element={<AuthLayout />}>
+            <Route path="/register" element={<RegisterPage />} />
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/verify-otp" element={<OTPVeryPage />} />
+          </Route>
         </Route>
       </Routes>
     </Router>
