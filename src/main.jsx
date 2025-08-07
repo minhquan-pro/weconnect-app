@@ -9,20 +9,24 @@ import RegisterPage from "./pages/auth/RegisterPage";
 import AuthLayout from "./pages/AuthLayout";
 import LoginPage from "./pages/auth/LoginPage";
 import OTPVeryPage from "./pages/auth/OTPVeryPage";
+import { Provider } from "react-redux";
+import store from "./redux/store";
 
 createRoot(document.getElementById("root")).render(
-  <ThemeProvider theme={theme}>
-    <Router>
-      <Routes>
-        <Route element={<RootLayout />}>
-          <Route path="/" element={<HomePages />} />
-          <Route element={<AuthLayout />}>
-            <Route path="/register" element={<RegisterPage />} />
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/verify-otp" element={<OTPVeryPage />} />
+  <Provider store={store}>
+    <ThemeProvider theme={theme}>
+      <Router>
+        <Routes>
+          <Route element={<RootLayout />}>
+            <Route path="/" element={<HomePages />} />
+            <Route element={<AuthLayout />}>
+              <Route path="/register" element={<RegisterPage />} />
+              <Route path="/login" element={<LoginPage />} />
+              <Route path="/verify-otp" element={<OTPVeryPage />} />
+            </Route>
           </Route>
-        </Route>
-      </Routes>
-    </Router>
-  </ThemeProvider>,
+        </Routes>
+      </Router>
+    </ThemeProvider>
+  </Provider>,
 );
