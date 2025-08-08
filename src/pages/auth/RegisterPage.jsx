@@ -1,15 +1,36 @@
 import { useForm } from "react-hook-form";
 import FormField from "../../components/FormField";
 import TextInput from "../../components/FormInput/TextInput";
-import { Button } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Alert, Button } from "@mui/material";
+import { Link, useNavigate } from "react-router-dom";
+import { useRegisterMutation } from "../../services/rootApi";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { openSnackbar } from "../../redux/slices/snackbarSlice";
 
 const RegisterPage = () => {
   const { handleSubmit, control } = useForm();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const [register, { data, isLoading, error, isSuccess, isError }] =
+    useRegisterMutation();
 
   const onSubmit = (data) => {
-    console.log({ data });
+    register(data);
   };
+
+  useEffect(() => {
+    if (isSuccess) {
+      dispatch(
+        openSnackbar({
+          open: true,
+          message: data.message,
+        }),
+      );
+      navigate("/login");
+    }
+  }, [isSuccess, navigate, dispatch, data?.message]);
 
   return (
     <div>
@@ -37,9 +58,13 @@ const RegisterPage = () => {
           Component={TextInput}
         />
 
-        <Button variant="contained">Sign Up</Button>
+        <Button type="submit" variant="contained">
+          Sign Up
+        </Button>
+
+        {isError && <Alert severity="error">{error.data.message}</Alert>}
       </form>
-      <p className="mt-4 text-dark-100">
+      <p className="mt-4 text-center text-dark-100">
         Already have an account?{" "}
         <Link to="/login" className="text-[#246AA3]">
           Sign in instead
